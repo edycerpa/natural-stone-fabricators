@@ -1,0 +1,95 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Stats from "../components/Stats.astro";
+import ContactCTA from "../components/ContactCTA.astro";
+import HeroSection from "../components/HeroSection.astro";
+
+const title = "About | Natural Stone Fabricators — 20+ years in Orange County";
+const description = "Family-owned stone fabricators serving Orange County since the early 2000s. Granite, marble, quartz and porcelain — precision cut, locally fabricated, professionally installed.";
+---
+
+<BaseLayout title={title} description={description}>
+  <Header />
+  <main>
+
+    <HeroSection
+      eyebrow="About"
+      title="Two decades of stone, one family."
+      description="Natural Stone Fabricators has proudly served Orange County and Southern California for more than 20 years. We cut, polish and install stone for the people who live here — one kitchen, one fireplace, one staircase at a time."
+    />
+
+    <section class="py-20 sm:py-28">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-ink text-3xl sm:text-4xl mb-6" data-anim="fade-up">What we do</h2>
+        <div class="font-sans text-lg text-shade-dark leading-relaxed space-y-5" data-anim="fade-up" data-anim-delay="100">
+          <p>
+            Natural Stone Fabricators has proudly served Orange County, Los Angeles, and the surrounding Southern California communities for over 20 years.
+          </p>
+          <p>
+            We specialize in the fabrication and installation of granite, marble, quartz, porcelain, and other natural stone surfaces for residential and commercial projects.
+          </p>
+          <p>
+            From template to final polish, we handle kitchens, bathrooms, fireplaces, staircases, outdoor living spaces, BBQs, and commercial tenant improvements.
+          </p>
+          <p>
+            We are a local, independent shop—not a franchise or a national chain. We take pride in craftsmanship, fabricating every slab in our shop and installing it ourselves.
+          </p>
+          <p>
+            Most of our work comes from referrals and repeat clients because we measure twice, cut once, and respect your home while we're in it.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20 sm:py-28 bg-primary-ultra-light/60 border-y border-primary-light/40">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-14" data-anim="fade-up">
+          <p class="eyebrow text-primary mb-3">How it works</p>
+          <h2 class="text-ink text-3xl sm:text-4xl">From first call to final polish.</h2>
+        </div>
+
+        <ol class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          {[
+            { n: "01", title: "Free Consultation", body: "We meet at your home or the project site. You show us the space. We measure, talk material, and give you a written estimate — no commitment." },
+            { n: "02", title: "Template & Slab Selection", body: "We make precise templates of your space. You visit our slab yard (or we bring samples to you) to choose the exact stone." },
+            { n: "03", title: "Local Fabrication", body: "Our shop cuts, polishes and finishes your stone under controlled conditions. Lead time is roughly 1–2 weeks depending on material and complexity." },
+            { n: "04", title: "Installation", body: "Our crew installs on site — typically in a single day for kitchens. We seal the stone, walk you through care, and clean up before we leave." },
+          ].map(({ n, title, body }, i) => (
+            <li
+              class="bg-white p-6 sm:p-8 border border-primary-light/60"
+              data-anim="fade-up"
+              data-anim-delay={(i + 1) * 150}
+            >
+              <p class="text-secondary font-bold text-2xl font-sans">{n}</p>
+              <h3 class="mt-3 text-lg font-bold text-ink font-sans">{title}</h3>
+              <p class="mt-2 text-sm text-shade-dark leading-relaxed font-sans">{body}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <Stats />
+
+    <section class="py-20 sm:py-28">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <p class="eyebrow text-primary mb-3" data-anim="fade-up">Service Area</p>
+        <h2 class="text-ink text-3xl sm:text-4xl" data-anim="fade-up" data-anim-delay="100">All of Orange County & SoCal.</h2>
+        <p class="mt-5 text-lg text-shade-dark leading-relaxed max-w-2xl mx-auto font-sans" data-anim="fade-up" data-anim-delay="200">
+          From our shop in Anaheim, we install across Orange County and into Los Angeles, Riverside, San Bernardino and the wider Southern California region.
+        </p>
+        <p class="mt-6 text-base text-shade-dark font-sans" data-anim="fade-up" data-anim-delay="300">
+          <a href="/contact" class="text-secondary hover:text-secondary-hover font-bold">
+            Not sure if we cover your area? Send us a message — we'll let you know.
+          </a>
+        </p>
+      </div>
+    </section>
+
+    <ContactCTA />
+
+  </main>
+  <Footer />
+</BaseLayout>

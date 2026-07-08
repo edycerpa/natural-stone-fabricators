@@ -1,0 +1,42 @@
+---
+export interface Props {
+  eyebrow: string;
+  title: string;
+  description?: string;
+}
+const { eyebrow, title, description } = Astro.props;
+---
+
+<section class="relative overflow-hidden bg-gradient-to-br from-ink via-ink to-primary py-16 sm:py-24">
+  <!-- Decorative red line, top -->
+  <div class="absolute inset-x-0 top-0 h-1 bg-secondary"></div>
+
+  <!-- Decorative red line, bottom -->
+  <div class="absolute inset-x-0 bottom-0 h-1 bg-secondary"></div>
+
+  <!-- Subtle red glow, top-right -->
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute -top-32 -right-32 w-[28rem] h-[28rem] rounded-full bg-secondary/10 blur-3xl"
+  ></div>
+
+  <!-- Subtle red glow, bottom-left -->
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute -bottom-40 -left-40 w-[32rem] h-[32rem] rounded-full bg-secondary/15 blur-3xl"
+  ></div>
+
+  <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <p class="eyebrow text-secondary mb-3" data-anim="fade-up" data-anim-delay="100">{eyebrow}</p>
+    <h1 class="h1-sec text-white text-4xl sm:text-5xl" data-anim="fade-up" data-anim-delay="200">{title}</h1>
+    {description && (
+      <p
+        class="mt-5 text-lg text-primary-ultra-light/90 font-sans"
+        data-anim="fade-up"
+        data-anim-delay="300"
+      >
+        {description}
+      </p>
+    )}
+  </div>
+</section>

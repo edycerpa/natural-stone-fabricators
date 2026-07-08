@@ -1,0 +1,43 @@
+---
+import heroImg from "../assets/image-31.jpg";
+---
+
+<section class="hero-section relative overflow-hidden bg-ink">
+  <img
+    src={heroImg.src}
+    alt="Natural Stone Fabricators — premium stone craftsmanship in Orange County"
+    class="absolute inset-0 w-full h-full object-cover"
+    width={heroImg.width}
+    height={heroImg.height}
+    loading="eager"
+    fetchpriority="high"
+    decoding="async"
+  />
+  <!-- Dark left-to-mid gradient: text is on the left, photo bright on the right -->
+  <div class="absolute inset-0 bg-linear-to-r from-ink/85 via-ink/60 to-ink/20"></div>
+
+  <!-- Absolute centered overlay — text is vertically centered in the full hero -->
+  <div class="absolute inset-0 flex items-center">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+      <div class="max-w-2xl">
+        <p class="eyebrow text-white mb-3" data-anim="fade-up" data-anim-delay="100">
+          20+ Years in Orange County
+        </p>
+        <h1 class="h1 text-white font-bold" data-anim="fade-up" data-anim-delay="200">
+          Stone that lasts <span class="text-accent">generations.</span>
+        </h1>
+        <p class="mt-5 text-lg sm:text-xl text-white max-w-xl leading-relaxed font-sans" data-anim="fade-up" data-anim-delay="300">
+          Fabrication and installation of granite, marble, quartz and porcelain for kitchens, bathrooms, fireplaces, staircases and outdoor living spaces across Southern California.
+        </p>
+        <div class="mt-8 flex flex-col sm:flex-row gap-3" data-anim="fade-up" data-anim-delay="400">
+          <a href="/contact" class="inline-flex items-center justify-center px-7 py-3.5 text-sm font-bold uppercase tracking-wider bg-secondary text-white hover:bg-secondary-hover transition-colors rounded-sm">
+            Request Free Estimate
+          </a>
+          <a href="/gallery" class="inline-flex items-center justify-center px-7 py-3.5 text-sm font-bold uppercase tracking-wider bg-white/10 backdrop-blur-sm border-2 border-white text-white hover:bg-white hover:text-ink transition-colors rounded-sm">
+            View Our Work
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

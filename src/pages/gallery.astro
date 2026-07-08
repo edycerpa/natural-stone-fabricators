@@ -1,0 +1,136 @@
+---
+import { Image } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import ContactCTA from "../components/ContactCTA.astro";
+import HeroSection from "../components/HeroSection.astro";
+import { gallery } from "../data/gallery";
+
+const title = "Gallery | Natural Stone Fabricators — Stone Work in Orange County";
+const description = "Recent kitchens, bathrooms, fireplaces, staircases and outdoor projects fabricated and installed by Natural Stone Fabricators in Orange County and Southern California.";
+---
+
+<BaseLayout title={title} description={description}>
+  <Header />
+  <main>
+
+    <HeroSection
+      eyebrow="Gallery"
+      title="Recent projects."
+      description="A selection of kitchens, bathrooms, fireplaces, staircases and outdoor projects from Orange County. Each one started as a slab and ended as a home."
+    />
+
+    <section class="py-12 sm:py-16 bg-background">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {gallery.length > 0 ? (
+          <div class="columns-1 sm:columns-2 lg:columns-3 gap-4 [column-fill:balance]">
+            {gallery.map((item, i) => (
+              <figure
+                class="relative mb-4 break-inside-avoid overflow-hidden bg-primary-ultra-light group cursor-zoom-in"
+                data-src={item.src.src}
+                data-anim="fade-up"
+                data-anim-delay={Math.min((i + 1) * 80, 800)}
+                onclick="window.__nsfOpenLightbox && window.__nsfOpenLightbox(this.dataset)"
+                tabindex="0"
+              >
+                <Image
+                  src={item.src}
+                  alt={item.alt}
+                  class="w-full h-auto block transition-transform duration-500 group-hover:scale-105"
+                  width={600}
+                />
+              </figure>
+            ))}
+          </div>
+        ) : (
+          <p class="text-center text-primary py-20 font-sans" data-anim="fade-up">No projects yet — gallery is being curated.</p>
+        )}
+      </div>
+    </section>
+
+    <div id="lightbox" class="lightbox fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md items-center justify-center p-4" onclick="event.target.id === 'lightbox' && window.__nsfCloseLightbox()">
+      <button type="button" aria-label="Close" onclick="window.__nsfCloseLightbox()" class="absolute top-4 right-4 text-white hover:text-secondary w-10 h-10 inline-flex items-center justify-center z-10">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      <img id="lightbox-img" class="lightbox-img max-w-full max-h-full object-contain" alt="" />
+    </div>
+
+    <ContactCTA />
+  </main>
+  <Footer />
+
+  <script>
+    interface NsfLightboxData {
+      src: string;
+    }
+    declare global {
+      interface Window {
+        __nsfOpenLightbox?: (data: NsfLightboxData) => void;
+        __nsfCloseLightbox?: () => void;
+      }
+    }
+
+    function bindLightbox() {
+      const lightbox = document.getElementById("lightbox");
+      const lightboxImg = document.getElementById("lightbox-img") as HTMLImageElement | null;
+
+      // Lock body scroll when opening, but only compensate for the scrollbar
+      // width if the page is actually scrollable — otherwise no shift, no
+      // empty strip.
+      const lockScroll = () => {
+        const hasScroll =
+          document.documentElement.scrollHeight >
+          document.documentElement.clientHeight;
+        if (hasScroll) {
+          const sbw = window.innerWidth - document.documentElement.clientWidth;
+          document.body.style.paddingRight = `${sbw}px`;
+        }
+        document.body.style.overflow = "hidden";
+      };
+      const unlockScroll = () => {
+        document.body.style.overflow = "";
+        document.body.style.paddingRight = "";
+      };
+
+      window.__nsfOpenLightbox = (data) => {
+        if (!lightbox || !lightboxImg) return;
+        // Restart opening animation cleanly (in case it's already open)
+        lightbox.classList.remove("is-closing", "is-opening");
+        lightboxImg.src = data.src;
+        lightboxImg.alt = "";
+        lightbox.classList.remove("hidden");
+        lightbox.classList.add("flex", "is-opening");
+        lockScroll();
+        // Strip the trigger class once the animation finishes (keeps state clean
+        // for re-opens)
+        const onEnd = () => {
+          lightbox.classList.remove("is-opening");
+          lightbox.removeEventListener("animationend", onEnd);
+        };
+        lightbox.addEventListener("animationend", onEnd);
+      };
+      window.__nsfCloseLightbox = () => {
+        if (!lightbox) return;
+        if (lightbox.classList.contains("is-closing")) return; // already closing
+        lightbox.classList.remove("is-opening");
+        lightbox.classList.add("is-closing");
+        const onEnd = () => {
+          lightbox.classList.remove("is-closing", "flex");
+          lightbox.classList.add("hidden");
+          unlockScroll();
+          lightbox.removeEventListener("animationend", onEnd);
+        };
+        lightbox.addEventListener("animationend", onEnd);
+      };
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") window.__nsfCloseLightbox?.();
+      });
+    }
+
+    bindLightbox();
+    // Re-bind after every Astro view transition
+    document.addEventListener("astro:page-load", bindLightbox);
+  </script>
+</BaseLayout>

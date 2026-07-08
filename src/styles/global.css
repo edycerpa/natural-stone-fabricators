@@ -1,0 +1,282 @@
+/* Tailwind v4 import */
+@import "tailwindcss";
+
+/* Default: no reserved gutter. We add a temporary padding-right on body when
+   the lightbox opens (only if the page is actually scrollable), so the layout
+   doesn't shift but we don't leave a permanent empty strip either. */
+
+/* =============================================================================
+   Layout tokens — header height for hero math + container width
+   ============================================================================= */
+:root {
+  --header-height: 5rem;     /* matches h-20 in Header.astro */
+  --container-max: 80rem;    /* matches max-w-7xl */
+}
+
+/* =============================================================================
+   NSF — Theme tokens (extraídos del CSS Bricks real de natural-stone-fabricators.com)
+   Tokens renamed: --color-base → --color-ink to avoid collision with Tailwind's
+   `text-base` (which is font-size 1rem, not a color).
+   ============================================================================= */
+@theme {
+  /* Fonts — self-hosted */
+  --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Savoye LET", "Savoye", "Apple Chancery", cursive;
+
+  /* === Primary (azul NSF) === */
+  --color-primary: #2d82b7;
+  --color-primary-hover: #3995cf;
+  --color-primary-dark: #194967;
+  --color-primary-light: #c1def0;
+  --color-primary-ultra-light: #e7f5fd;
+
+  /* === Secondary (rojo NSF — accent CTA) === */
+  --color-secondary: #ba1200;
+  --color-secondary-hover: #8a0c00;
+  --color-secondary-dark: #7f4c01;
+  --color-secondary-light: #ffe0b3;
+
+  /* === Orange (naranja NSF original — íconos, divider, accents sutiles) === */
+  --color-accent: #f18f01;
+
+  /* === Ink (navy casi negro — headings / dark sections) === */
+  --color-ink: #031927;
+  --color-ink-hover: #031c2c;
+  --color-ink-dark: #094d77;
+  --color-ink-medium: #1299ed;
+  --color-ink-light: #b8e0fa;
+  --color-ink-ultra-light: #e7f5fd;
+  --color-ink-ultra-dark: #0a1d29; /* NSF original — texto bold */
+
+  /* === Shade (negros para texto y dark) === */
+  --color-shade: #000000;
+  --color-shade-dark: #404040;
+  --color-shade-light: #b3b3b3;
+
+  /* === Surface === */
+  --color-background: #f7f7f7;
+  --color-background-alt: #ffffff;
+
+  /* === Semantic === */
+  --color-info: #18a2b8;
+  --color-success: #29a745;
+  --color-warning: #ffc10a;
+  --color-danger: #dc3545;
+}
+
+/* =============================================================================
+   Self-hosted @font-face (no Google Fonts — velocidad obsesiva)
+   ============================================================================= */
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/montserrat/montserrat-regular.woff2") format("woff2"),
+       url("/fonts/montserrat/montserrat-regular.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/montserrat/montserrat-700.woff2") format("woff2"),
+       url("/fonts/montserrat/montserrat-700.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Savoye LET";
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url("/fonts/savoye/savoye-regular.woff2") format("woff2"),
+       url("/fonts/savoye/savoye-regular.woff") format("woff");
+}
+
+/* =============================================================================
+   Base — coinciding with NSF Bricks defaults
+   ============================================================================= */
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    background-color: var(--color-background);
+    scroll-behavior: smooth;
+  }
+  body {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    color: var(--color-shade);
+    background-color: var(--color-background);
+    font-feature-settings: "kern", "liga", "calt";
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    color: var(--color-ink);
+    /* Savoye is a script/handwriting face: no tight tracking, no shadow */
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-secondary);
+    outline-offset: 2px;
+  }
+}
+
+/* =============================================================================
+   Component utilities — pixel-exact values live here, not as Tailwind arbitraries
+   ============================================================================= */
+@layer components {
+  /* White logo variant — DISABLED. Never modify a logo with CSS filters
+     unless it ships with an explicit light/dark variant. */
+
+  /* Hero fills viewport below the sticky/glass header */
+  .hero-section {
+    min-height: calc(100vh - var(--header-height));
+    max-height: 760px;
+  }
+
+  /* Brand eyebrow — used 11× across pages */
+  .eyebrow {
+    @apply text-xs font-bold uppercase;
+    letter-spacing: 0.3em;
+    font-family: var(--font-sans);
+  }
+}
+
+.h1 {
+  @apply text-7xl sm:text-9xl my-8;
+  line-height: 0.7;
+}
+.h1-sec {
+  @apply text-5xl sm:text-7xl my-8;
+  line-height: 0.7;
+}
+
+h2 {
+  @apply text-5xl sm:text-7xl my-6;
+  line-height: 0.8;
+}
+
+/* =============================================================================
+   Entrance animations (data-anim="fade-up" | "fade-in" | "fade-left" | "fade-right")
+   - Initial state: hidden + offset
+   - When .is-visible is added (via IntersectionObserver in BaseLayout): animates in
+   - "once" — observer unobserves after first trigger, never replays
+   - Honors prefers-reduced-motion (no initial offset when reduce)
+   ============================================================================= */
+@keyframes nsf-fade-up {
+  from { opacity: 0; transform: translate3d(0, 24px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes nsf-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes nsf-fade-left {
+  from { opacity: 0; transform: translate3d(-24px, 0, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes nsf-fade-right {
+  from { opacity: 0; transform: translate3d(24px, 0, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes nsf-zoom-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+[data-anim] {
+  opacity: 0;
+  will-change: opacity, transform;
+}
+[data-anim="fade-up"] {
+  animation: nsf-fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+[data-anim="fade-in"] {
+  animation: nsf-fade-in 0.6s ease-out forwards;
+}
+[data-anim="fade-left"] {
+  animation: nsf-fade-left 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+[data-anim="fade-right"] {
+  animation: nsf-fade-right 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+[data-anim="zoom-in"] {
+  animation: nsf-zoom-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Stagger via [data-anim-delay] (in ms) */
+[data-anim-delay="100"] { animation-delay: 0.1s; }
+[data-anim-delay="200"] { animation-delay: 0.2s; }
+[data-anim-delay="300"] { animation-delay: 0.3s; }
+[data-anim-delay="400"] { animation-delay: 0.4s; }
+[data-anim-delay="500"] { animation-delay: 0.5s; }
+[data-anim-delay="600"] { animation-delay: 0.6s; }
+[data-anim-delay="700"] { animation-delay: 0.7s; }
+[data-anim-delay="800"] { animation-delay: 0.8s; }
+
+/* Reduced motion: skip the offset, just fade in quickly (or show immediately) */
+@media (prefers-reduced-motion: reduce) {
+  [data-anim] {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}
+
+/* =============================================================================
+   Astro View Transitions — global page transitions
+   ============================================================================= */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.28s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+::view-transition-old(root) {
+  animation-name: nsf-fade-out;
+}
+::view-transition-new(root) {
+  animation-name: nsf-fade-in;
+}
+
+@keyframes nsf-fade-out {
+  to { opacity: 0; transform: translateY(-6px); }
+}
+
+/* =============================================================================
+   Lightbox — fade + scale transition on open/close (no view transition needed,
+   this is a UI overlay, not a navigation).
+   ============================================================================= */
+@keyframes nsf-lightbox-in {
+  from { opacity: 0; backdrop-filter: blur(0); }
+  to   { opacity: 1; backdrop-filter: blur(12px); }
+}
+@keyframes nsf-lightbox-out {
+  from { opacity: 1; backdrop-filter: blur(12px); }
+  to   { opacity: 0; backdrop-filter: blur(0); }
+}
+@keyframes nsf-lightbox-img-in {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.lightbox.is-opening {
+  animation: nsf-lightbox-in 0.28s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+.lightbox.is-opening .lightbox-img {
+  animation: nsf-lightbox-img-in 0.32s cubic-bezier(0.22, 1, 0.36, 1) 0.06s both;
+}
+.lightbox.is-closing {
+  animation: nsf-lightbox-out 0.22s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+.lightbox.is-closing .lightbox-img {
+  animation: nsf-lightbox-img-in 0.18s cubic-bezier(0.4, 0, 0.2, 1) reverse both;
+}

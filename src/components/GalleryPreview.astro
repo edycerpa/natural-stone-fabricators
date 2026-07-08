@@ -1,0 +1,43 @@
+---
+import { Image } from "astro:assets";
+import { gallery } from "../data/gallery";
+const items = gallery.slice(0, 6);
+---
+
+<section class="py-20 sm:py-28 bg-background">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-end justify-between gap-4 mb-12" data-anim="fade-up">
+      <div>
+        <p class="eyebrow text-primary mb-3">Recent Projects</p>
+        <h2 class="text-ink text-3xl sm:text-4xl">From slab to home.</h2>
+      </div>
+      <a href="/gallery" class="hidden sm:inline-flex items-center text-sm font-bold uppercase tracking-wider text-secondary hover:text-secondary-hover">
+        View Gallery →
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {items.map((item, i) => (
+        <figure
+          class="relative aspect-video overflow-hidden bg-primary-ultra-light group"
+          data-anim="fade-up"
+          data-anim-delay={(i + 1) * 100}
+        >
+          <Image
+            src={item.src}
+            alt={item.alt}
+            class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            width={600}
+            height={400}
+          />
+        </figure>
+      ))}
+    </div>
+
+    <div class="mt-10 text-center sm:hidden">
+      <a href="/gallery" class="inline-flex items-center text-sm font-bold uppercase tracking-wider text-secondary hover:text-secondary-hover">
+        View Gallery →
+      </a>
+    </div>
+  </div>
+</section>

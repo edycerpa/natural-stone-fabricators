@@ -1,0 +1,45 @@
+---
+const services = [
+  { icon: "kitchen", title: "Kitchen Countertops", description: "Granite, marble, quartz and porcelain islands, perimeters, and full-kitchen installations tailored to your layout." },
+  { icon: "bath", title: "Bathroom Vanities", description: "Custom-cut stone vanities, surrounds, and shower walls that turn ordinary bathrooms into spa-grade retreats." },
+  { icon: "fire", title: "Fireplaces", description: "Surrounds and hearths in marble, granite or quartz — designed to anchor the room's focal point." },
+  { icon: "stairs", title: "Staircases", description: "Precision-cut stone treads and risers that flow seamlessly from entryway to upper level." },
+  { icon: "outdoor", title: "Outdoor Living", description: "BBQ islands, bars, fire pits and patio countertops that stand up to Southern California weather." },
+  { icon: "commercial", title: "Commercial", description: "Reception counters, conference tables, and tenant-improvement projects with deadline-driven turnaround." },
+];
+
+const icons: Record<string, string> = {
+  kitchen: '<path d="M5 4h14M7 4v8a5 5 0 0 0 10 0V4M9 12v8M15 12v8"/>',
+  bath: '<path d="M4 12h16v3a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3zM6 12V7a3 3 0 0 1 6 0"/>',
+  fire: '<path d="M12 2c2 4-2 5-2 8a4 4 0 0 0 8 0c0-2-1-3-1-3s-1 2-3 2c0-3 2-4-2-7z"/>',
+  stairs: '<path d="M3 21h4v-4h4v-4h4v-4h4V5h2"/>',
+  outdoor: '<path d="M3 12l9-9 9 9M5 10v10h14V10"/>',
+  commercial: '<rect x="4" y="3" width="16" height="18" rx="1"/><path d="M8 7h8M8 11h8M8 15h6"/>',
+};
+---
+
+<section class="py-20 sm:py-28 bg-background">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-14" data-anim="fade-up">
+      <p class="eyebrow text-primary mb-3">What We Do</p>
+      <h2 class="text-ink text-3xl sm:text-4xl lg:text-5xl">Crafted for every room.</h2>
+      <p class="mt-5 text-lg text-shade-dark max-w-2xl mx-auto font-sans">
+        From the kitchen island that anchors your morning routine to the fireplace surround that frames family time — natural stone, fabricated to your home.
+      </p>
+    </div>
+
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {services.map(({ icon, title, description }, i) => (
+        <article
+          class="group p-8 bg-white border border-primary-ultra-light hover:border-primary hover:shadow-lg hover:shadow-primary-light/30 transition-all rounded-sm"
+          data-anim="fade-up"
+          data-anim-delay={(i + 1) * 100}
+        >
+          <svg class="w-10 h-10 text-primary mb-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" set:html={icons[icon]} />
+          <h3 class="text-xl font-bold text-ink mb-2 font-sans">{title}</h3>
+          <p class="text-sm text-shade-dark leading-relaxed font-sans">{description}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,94 @@
+---
+import logo from "../assets/logo.png";
+const { pathname } = Astro.url;
+const isActive = (href: string) => pathname === href || (href !== "/" && pathname.startsWith(href));
+
+const links = [
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
+  { href: "/gallery", label: "Gallery" },
+  { href: "/contact", label: "Contact" },
+];
+---
+
+<header class="sticky top-0 z-40 bg-white border-b border-primary-light/40">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-20">
+      <a href="/" class="flex items-center gap-3 shrink-0">
+        <img
+          src={logo.src}
+          alt="Natural Stone Fabricators"
+          width="250"
+          height="84"
+          loading="eager"
+        />
+      </a>
+
+      <nav class="hidden md:flex items-center gap-10 ml-auto">
+        {links.map(({ href, label }) => (
+          <a
+            href={href}
+            class:list={[
+              "text-sm font-bold tracking-wide uppercase transition-colors",
+              isActive(href) ? "text-secondary" : "text-ink hover:text-secondary",
+            ]}
+          >
+            {label}
+          </a>
+        ))}
+        <a
+          href="/contact"
+          class="inline-flex items-center px-5 py-2.5 text-sm font-bold uppercase tracking-wide bg-secondary text-white hover:bg-secondary-hover transition-colors rounded-sm"
+        >
+          Free Estimate
+        </a>
+      </nav>
+
+      <div class="flex items-center gap-3">
+        <button
+          id="nav-toggle"
+          type="button"
+          aria-label="Open menu"
+          class="md:hidden inline-flex items-center justify-center w-9 h-9 text-ink"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <nav id="mobile-menu" class="md:hidden hidden pb-4 flex-col gap-2">
+      {links.map(({ href, label }) => (
+        <a
+          href={href}
+          class:list={[
+            "block py-2 text-sm font-bold uppercase tracking-wide",
+            isActive(href) ? "text-secondary" : "text-ink",
+          ]}
+        >
+          {label}
+        </a>
+      ))}
+      <a
+        href="/contact"
+        class="block py-3 mt-2 text-center text-sm font-bold uppercase tracking-wide bg-secondary text-white rounded-sm"
+      >
+        Free Estimate
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const navBtn = document.getElementById('nav-toggle');
+  const menu = document.getElementById('mobile-menu');
+  if (navBtn && menu) {
+    navBtn.addEventListener('click', () => {
+      menu.classList.toggle('hidden');
+      menu.classList.toggle('flex');
+    });
+  }
+</script>

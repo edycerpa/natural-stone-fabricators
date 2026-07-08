@@ -1,0 +1,42 @@
+---
+import logo from "../assets/logo.png";
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-auto bg-ink text-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+    <div class="grid gap-10 md:grid-cols-4">
+
+      <div class="md:col-span-2">
+        <img src={logo.src} alt="Natural Stone Fabricators" class="mb-4" width="300"
+          height="100" loading="lazy" />
+        <p class="text-sm leading-relaxed text-primary-ultra-light/80 max-w-md font-sans">
+          Fabrication and installation of granite, marble, quartz, porcelain and other natural stone for kitchens, bathrooms, fireplaces, staircases and outdoor living spaces. Serving Orange County and Southern California since the early 2000s.
+        </p>
+      </div>
+
+      <div>
+        <h3 class="eyebrow text-secondary mb-4">Visit</h3>
+        <address class="not-italic text-sm leading-relaxed text-primary-ultra-light/80 font-sans">
+          Anaheim, CA 92806<br />
+          Orange County, California<br />
+          United States
+        </address>
+      </div>
+
+      <div>
+        <h3 class="eyebrow text-secondary mb-4">Contact</h3>
+        <ul class="space-y-2 text-sm font-sans">
+          <li><a href="tel:+17143900370" class="hover:text-secondary transition-colors">(714) 390-0370</a></li>
+          <li><a href="tel:+17143859973" class="hover:text-secondary transition-colors">(714) 385-9973</a></li>
+          <li><a href="mailto:naturalstonefabricators@gmail.com" class="hover:text-secondary transition-colors break-all">naturalstonefabricators@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-12 pt-6 border-t border-ink-medium/40 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-xs text-primary-ultra-light/60 font-sans">© {year} Natural Stone Fabricators, Inc. All rights reserved.</p>
+      <p class="text-xs text-primary-ultra-light/60 font-sans">Premium stone craftsmanship in Orange County, CA.</p>
+    </div>
+  </div>
+</footer>

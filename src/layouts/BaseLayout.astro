@@ -1,0 +1,103 @@
+---
+import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+}
+const {
+  title = "Natural Stone Fabricators | Premium Stone Countertops in Orange County",
+  description = "Fabrication and installation of granite, marble, quartz and porcelain for kitchens, bathrooms, fireplaces and outdoor living spaces. 20+ years serving Orange County, CA. Free estimate.",
+  ogImage = "/images/logo.webp",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <link rel="icon" type="image/webp" href="/favicon.webp" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={Astro.url.href} />
+    <meta property="og:locale" content="en_US" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Natural Stone Fabricators, Inc.",
+      "description": description,
+      "telephone": "+1-714-390-0370",
+      "email": "naturalstonefabricators@gmail.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Anaheim",
+        "addressRegion": "CA",
+        "postalCode": "92806",
+        "addressCountry": "US"
+      },
+      "areaServed": "Orange County, CA",
+      "image": ogImage,
+      "url": Astro.url.origin,
+      "priceRange": "$$$"
+    })} />
+
+    <link rel="preload" href="/fonts/montserrat/montserrat-regular.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+    <link rel="preload" href="/fonts/montserrat/montserrat-700.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+    <ClientRouter />
+  </head>
+
+  <body class="min-h-screen flex flex-col">
+    <slot />
+
+    <script>
+      // Entrance animations: any element with [data-anim] gets revealed once
+      // when it enters the viewport, then never animates again.
+      // Honors prefers-reduced-motion.
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      if (!reduceMotion && "IntersectionObserver" in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                io.unobserve(entry.target);
+              }
+            }
+          },
+          { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
+        );
+        const observe = () => {
+          document.querySelectorAll("[data-anim]:not(.is-visible)").forEach((el) => io.observe(el));
+        };
+        observe();
+        // Re-run after Astro view transitions
+        document.addEventListener("astro:page-load", observe);
+      } else {
+        // No motion support → show everything immediately
+        document.addEventListener("astro:page-load", () => {
+          document.querySelectorAll("[data-anim]").forEach((el) => el.classList.add("is-visible"));
+        });
+        // On first load too
+        document.querySelectorAll("[data-anim]").forEach((el) => el.classList.add("is-visible"));
+      }
+    </script>
+  </body>
+</html>

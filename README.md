@@ -1,43 +1,52 @@
-# Astro Starter Kit: Minimal
+# Natural Stone Fabricators (NSF)
 
-```sh
-pnpm create astro@latest -- --template minimal
-```
+## Stack
+- **Framework:** Astro ^5.0.0
+- **Styling:** Tailwind CSS v4
+- **Node:** >= 22.12.0
+- **Package Manager:** pnpm
+- **Mailing:** Resend (Serverless API)
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Routes
+| Route | Purpose |
+|-------|---------|
+| `/`   | Landing page inicial |
+| `/gallery` | Galería de proyectos recientes (Masonry layout, Lightbox) |
+| `/about` | Historia, experiencia y valores de NSF |
+| `/contact` | Formulario de contacto integrado con Resend |
 
-## 🚀 Project Structure
+## Design System
+Referirse al archivo [design-system.md](./design-system.md) para los tokens de diseño (tipografías, colores, animaciones).
 
-Inside of your Astro project, you'll see the following folders and files:
-
+## Project Structure
 ```text
 /
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
+├── public/         # Assets estáticos (favicon, etc.)
+├── src/            # Código fuente
+│   ├── assets/     # Imágenes optimizadas para Astro (<Image />)
+│   ├── components/ # Componentes UI (Hero, Header, Footer, GalleryPreview, etc.)
+│   ├── data/       # Data estática (gallery.ts)
+│   ├── layouts/    # BaseLayout.astro
+│   ├── pages/      # Rutas de Astro (incluye api/contact.ts)
+│   └── styles/     # global.css (Variables de Tailwind V4 y utilidades)
 └── package.json
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Environment Variables
+Copiar `.env.example` a `.env` o `.env.local` para configurar.
+Variables requeridas:
+- `RESEND_API_KEY`: API Key de Resend.
+- `RESEND_FROM`: Correo verificado de envío.
+- `RESEND_TO`: Destinatario (ej. email del cliente).
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## Scripts
+- `pnpm dev`: Inicia el servidor de desarrollo en background (`localhost:4321`)
+- `pnpm build`: Construye para producción (Node adapter para API routes)
+- `pnpm preview`: Previsualiza el build de producción
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Deployment
+*El sitio requiere Node.js hosting (Vercel, Netlify, o VPS tradicional) debido al uso de SSR (`output: "server"`) para procesar el formulario de contacto con Resend.*
 
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Pending Client Inputs
+- Dominio personalizado para producción.
+- Verificación del dominio en Resend para configurar el `RESEND_FROM` oficial.
