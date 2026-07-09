@@ -1,8 +1,8 @@
 ---
 import { Image } from "astro:assets";
 import imgKitchen from "../assets/image-12.jpg";
-import imgBath from "../assets/image-13.jpg";
-import imgOutdoor from "../assets/image-01.jpg";
+import imgBath from "../assets/image-01.jpg";
+import imgOutdoor from "../assets/mesa-fuego-granito-exterior.jpg";
 import imgCommercial from "../assets/image-10.jpg";
 
 const services = [
@@ -13,19 +13,19 @@ const services = [
 ];
 ---
 
-<section class="py-24 lg:py-40 bg-ink text-white relative overflow-hidden">
+<section class="py-24 lg:py-40 bg-background text-ink relative overflow-hidden">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20 service-header-anim">
+    <div class="mb-20 service-header-anim">
       <div class="max-w-2xl">
         <p class="text-xs font-bold uppercase tracking-[0.3em] text-secondary mb-6">Capabilities</p>
-        <h2 class="text-4xl sm:text-5xl lg:text-7xl font-serif leading-[0.9] tracking-tight">
-          Crafted for <br/> <span class="italic text-primary-ultra-light">every room.</span>
+        <h2 class="text-6xl sm:text-7xl lg:text-9xl font-serif text-ink leading-[0.9] tracking-tight mb-8">
+          Crafted for <br/> <span class="italic text-secondary">every room.</span>
         </h2>
+        <p class="text-base text-shade-dark max-w-md font-sans leading-relaxed">
+          From the kitchen island that anchors your morning routine to the fireplace surround that frames family time.
+        </p>
       </div>
-      <p class="text-sm text-shade-light max-w-sm font-sans leading-relaxed">
-        From the kitchen island that anchors your morning routine to the fireplace surround that frames family time.
-      </p>
     </div>
 
     <!-- Editorial Interactive List -->
@@ -35,10 +35,10 @@ const services = [
       <div class="w-full lg:w-1/2 flex flex-col z-10" id="services-list">
         {services.map((service, index) => (
           <div 
-            class="service-item group py-8 border-b border-white/10 cursor-pointer flex items-center justify-between"
+            class="service-item group py-8 border-b border-ink/10 cursor-pointer flex items-center justify-between"
             data-index={index}
           >
-            <h3 class="text-3xl sm:text-4xl lg:text-5xl font-serif text-white/50 group-hover:text-white transition-colors duration-500">
+            <h3 class="text-5xl sm:text-6xl lg:text-7xl font-serif text-shade-dark group-hover:text-secondary transition-colors duration-500">
               {service.title}
             </h3>
             <span class="text-sm font-sans text-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform translate-x-4 group-hover:translate-x-0">Explore</span>
