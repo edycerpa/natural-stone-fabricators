@@ -70,7 +70,11 @@ const description = "Request a free in-home estimate for granite, marble, quartz
             <p class="text-sm mt-1">Please try again, or call us at (714) 390-0370.</p>
           </div>
 
-          <form id="contact-form" class="flex flex-wrap justify-between gap-y-5 font-sans" data-resend-action="/api/contact">
+          <form id="contact-form" class="flex flex-wrap justify-between gap-y-5 font-sans" action="https://api.web3forms.com/submit" method="POST">
+            <input type="hidden" name="access_key" value={import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY || ""} />
+            <input type="hidden" name="subject" value="New Contact from NSF Website" />
+            <input type="hidden" name="from_name" value="NSF Website" />
+
             <label class="block w-[48%]" data-anim="fade-up" data-anim-delay="100">
               <span class="block text-ink text-lg mb-1">First Name *</span>
               <input type="text" name="first_name" required autocomplete="given-name" class="w-full py-2 bg-transparent border-0 border-b border-ink text-ink placeholder:text-shade-light focus:outline-none focus:border-secondary" />
@@ -129,9 +133,12 @@ const description = "Request a free in-home estimate for granite, marble, quartz
         if (submitLabel) submitLabel.textContent = "Sending…";
 
         try {
-          const res = await fetch(form.dataset.resendAction || "/api/contact", {
+          const res = await fetch("https://api.web3forms.com/submit", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+              "Content-Type": "application/json",
+              "Accept": "application/json"
+            },
             body: JSON.stringify(Object.fromEntries(fd.entries())),
           });
           if (!res.ok) throw new Error(String(res.status));
