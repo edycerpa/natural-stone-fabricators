@@ -100,6 +100,14 @@ const description = "Request a free in-home estimate for granite, marble, quartz
               Do not fill this: <input type="text" name="website" tabindex="-1" autocomplete="off" />
             </label>
 
+            <!-- Legal Consent Checkbox -->
+            <label class="flex items-start gap-3 w-full mt-2 mb-2 cursor-pointer" data-anim="fade-up" data-anim-delay="550">
+              <input type="checkbox" name="legal_consent" required class="mt-1 w-5 h-5 shrink-0 accent-secondary cursor-pointer" />
+              <span class="text-sm text-shade-dark font-sans leading-relaxed">
+                By checking this box, you agree to our <a href="#" class="underline hover:text-secondary transition-colors">Terms of Service</a> and <a href="#" class="underline hover:text-secondary transition-colors">Privacy Policy</a>, and consent to receive communications from us.
+              </span>
+            </label>
+
             <div class="w-[35%]" data-anim="fade-up" data-anim-delay="600">
               <button type="submit" class="w-full py-3 px-6 bg-background text-ink border border-ink rounded-full font-bold uppercase tracking-wider text-base hover:bg-ink hover:text-white transition-colors disabled:opacity-50">
                 <span id="submit-label">Let's chat</span>
