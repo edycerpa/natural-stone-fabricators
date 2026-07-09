@@ -11,7 +11,7 @@ const links = [
 ];
 ---
 
-<header class="sticky top-0 z-40 bg-white border-b border-primary-light/40">
+<header id="site-header" class="fixed top-0 inset-x-0 z-50 transition-all duration-300 bg-white/80 backdrop-blur-md border-b border-white/20 shadow-sm">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-20">
       <a href="/" class="flex items-center gap-3 shrink-0">
@@ -60,13 +60,13 @@ const links = [
       </div>
     </div>
 
-    <nav id="mobile-menu" class="md:hidden hidden pb-4 flex-col gap-2">
+    <nav id="mobile-menu" class="md:hidden hidden pb-4 flex-col gap-2 bg-white/95 backdrop-blur-xl border-t border-primary-light/20 px-4 pt-4 shadow-xl rounded-b-lg absolute top-full inset-x-0">
       {links.map(({ href, label }) => (
         <a
           href={href}
           class:list={[
-            "block py-2 text-sm font-bold uppercase tracking-wide",
-            isActive(href) ? "text-secondary" : "text-ink",
+            "block py-3 px-4 text-sm font-bold uppercase tracking-wide rounded-md",
+            isActive(href) ? "bg-primary-ultra-light text-secondary" : "text-ink hover:bg-gray-50",
           ]}
         >
           {label}
@@ -74,7 +74,7 @@ const links = [
       ))}
       <a
         href="/contact"
-        class="block py-3 mt-2 text-center text-sm font-bold uppercase tracking-wide bg-secondary text-white rounded-sm"
+        class="block py-4 mt-2 text-center text-sm font-bold uppercase tracking-wide bg-secondary text-white rounded-md shadow-md"
       >
         Free Estimate
       </a>
@@ -85,10 +85,23 @@ const links = [
 <script>
   const navBtn = document.getElementById('nav-toggle');
   const menu = document.getElementById('mobile-menu');
+  const header = document.getElementById('site-header');
+
   if (navBtn && menu) {
     navBtn.addEventListener('click', () => {
       menu.classList.toggle('hidden');
       menu.classList.toggle('flex');
     });
   }
+
+  // Header scroll effect
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 20) {
+      header?.classList.add('shadow-md', 'bg-white/95');
+      header?.classList.remove('bg-white/80', 'shadow-sm');
+    } else {
+      header?.classList.add('bg-white/80', 'shadow-sm');
+      header?.classList.remove('shadow-md', 'bg-white/95');
+    }
+  });
 </script>

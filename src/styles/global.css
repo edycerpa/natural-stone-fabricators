@@ -144,6 +144,14 @@
     letter-spacing: 0.3em;
     font-family: var(--font-sans);
   }
+
+  /* Glassmorphism utilities */
+  .glass {
+    @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-lg shadow-black/5;
+  }
+  .glass-dark {
+    @apply bg-ink/70 backdrop-blur-md border border-white/10 shadow-xl shadow-black/20;
+  }
 }
 
 .h1 {
