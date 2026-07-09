@@ -11,10 +11,10 @@ const links = [
 ];
 ---
 
-<header id="site-header" class="fixed top-0 inset-x-0 z-50 transition-all duration-300 bg-white/80 backdrop-blur-md border-b border-white/20 shadow-sm">
+<header id="site-header" class="fixed top-0 inset-x-0 z-50 bg-ink transition-transform duration-500 border-b border-white/10">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex items-center justify-between h-20">
-      <a href="/" class="flex items-center gap-3 shrink-0">
+    <div class="flex items-center justify-between h-24">
+      <a href="/" class="flex items-center shrink-0">
         <img
           src={logo.src}
           alt="Natural Stone Fabricators"
@@ -24,21 +24,23 @@ const links = [
         />
       </a>
 
-      <nav class="hidden md:flex items-center gap-10 ml-auto">
+      <nav class="hidden md:flex items-center gap-12 ml-auto">
         {links.map(({ href, label }) => (
           <a
             href={href}
             class:list={[
-              "text-sm font-bold tracking-wide uppercase transition-colors",
-              isActive(href) ? "text-secondary" : "text-ink hover:text-secondary",
+              "text-xs font-bold tracking-[0.2em] uppercase transition-colors relative overflow-hidden group py-2",
+              isActive(href) ? "text-white" : "text-shade-light hover:text-white",
             ]}
           >
-            {label}
+            <span class="block relative z-10">{label}</span>
+            <!-- Elegant animated underline -->
+            <span class="absolute bottom-0 left-0 w-full h-[1px] bg-white transform origin-left transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] scale-x-0 group-hover:scale-x-100"></span>
           </a>
         ))}
         <a
           href="/contact"
-          class="inline-flex items-center px-5 py-2.5 text-sm font-bold uppercase tracking-wide bg-secondary text-white hover:bg-secondary-hover transition-colors rounded-sm"
+          class="ml-4 inline-flex items-center px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] bg-accent text-ink border border-accent hover:bg-transparent hover:text-accent transition-colors"
         >
           Free Estimate
         </a>
@@ -49,9 +51,9 @@ const links = [
           id="nav-toggle"
           type="button"
           aria-label="Open menu"
-          class="md:hidden inline-flex items-center justify-center w-9 h-9 text-ink"
+          class="md:hidden inline-flex items-center justify-center w-10 h-10 text-white"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
             <line x1="3" y1="6" x2="21" y2="6"/>
             <line x1="3" y1="12" x2="21" y2="12"/>
             <line x1="3" y1="18" x2="21" y2="18"/>
@@ -60,48 +62,67 @@ const links = [
       </div>
     </div>
 
-    <nav id="mobile-menu" class="md:hidden hidden pb-4 flex-col gap-2 bg-white/95 backdrop-blur-xl border-t border-primary-light/20 px-4 pt-4 shadow-xl rounded-b-lg absolute top-full inset-x-0">
-      {links.map(({ href, label }) => (
+    <!-- Mobile Menu: Brutalist / Editorial full width -->
+    <nav id="mobile-menu" class="md:hidden hidden flex-col bg-ink border-t border-white/10 absolute top-full inset-x-0 h-[calc(100vh-6rem)]">
+      <div class="flex flex-col px-4 pt-8 gap-6">
+        {links.map(({ href, label }) => (
+          <a
+            href={href}
+            class:list={[
+              "text-2xl font-serif tracking-tight border-b border-white/10 pb-4",
+              isActive(href) ? "text-secondary" : "text-white",
+            ]}
+          >
+            {label}
+          </a>
+        ))}
         <a
-          href={href}
-          class:list={[
-            "block py-3 px-4 text-sm font-bold uppercase tracking-wide rounded-md",
-            isActive(href) ? "bg-primary-ultra-light text-secondary" : "text-ink hover:bg-gray-50",
-          ]}
+          href="/contact"
+          class="block py-5 mt-4 text-center text-xs font-bold uppercase tracking-[0.2em] bg-accent text-ink border border-accent hover:bg-transparent hover:text-accent transition-colors"
         >
-          {label}
+          Free Estimate
         </a>
-      ))}
-      <a
-        href="/contact"
-        class="block py-4 mt-2 text-center text-sm font-bold uppercase tracking-wide bg-secondary text-white rounded-md shadow-md"
-      >
-        Free Estimate
-      </a>
+      </div>
     </nav>
   </div>
 </header>
 
 <script>
+  import { animate } from "motion";
+
   const navBtn = document.getElementById('nav-toggle');
   const menu = document.getElementById('mobile-menu');
   const header = document.getElementById('site-header');
 
   if (navBtn && menu) {
     navBtn.addEventListener('click', () => {
-      menu.classList.toggle('hidden');
-      menu.classList.toggle('flex');
+      const isHidden = menu.classList.contains('hidden');
+      if (isHidden) {
+        menu.classList.remove('hidden');
+        menu.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+        
+        // Motion API for mobile menu entrance
+        animate(menu, { opacity: [0, 1], y: [-20, 0] }, { duration: 0.4, easing: "ease-out" });
+      } else {
+        animate(menu, { opacity: 0, y: -20 }, { duration: 0.3, easing: "ease-in" }).then(() => {
+          menu.classList.add('hidden');
+          menu.classList.remove('flex');
+          document.body.style.overflow = '';
+        });
+      }
     });
   }
 
-  // Header scroll effect
+  // Hide header on scroll down, show on scroll up (Editorial standard)
+  let lastScroll = 0;
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 20) {
-      header?.classList.add('shadow-md', 'bg-white/95');
-      header?.classList.remove('bg-white/80', 'shadow-sm');
+    const currentScroll = window.scrollY;
+    if (currentScroll > 100 && currentScroll > lastScroll) {
+      header?.classList.add('-translate-y-full');
     } else {
-      header?.classList.add('bg-white/80', 'shadow-sm');
-      header?.classList.remove('shadow-md', 'bg-white/95');
+      header?.classList.remove('-translate-y-full');
     }
-  });
+    lastScroll = currentScroll;
+  }, { passive: true });
 </script>

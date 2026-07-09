@@ -3,88 +3,101 @@ import { Image } from "astro:assets";
 import imgKitchen from "../assets/image-12.jpg";
 import imgBath from "../assets/image-13.jpg";
 import imgOutdoor from "../assets/image-01.jpg";
+import imgCommercial from "../assets/image-10.jpg";
 
-const icons: Record<string, string> = {
-  kitchen: '<path d="M5 4h14M7 4v8a5 5 0 0 0 10 0V4M9 12v8M15 12v8"/>',
-  bath: '<path d="M4 12h16v3a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3zM6 12V7a3 3 0 0 1 6 0"/>',
-  fire: '<path d="M12 2c2 4-2 5-2 8a4 4 0 0 0 8 0c0-2-1-3-1-3s-1 2-3 2c0-3 2-4-2-7z"/>',
-  stairs: '<path d="M3 21h4v-4h4v-4h4v-4h4V5h2"/>',
-  outdoor: '<path d="M3 12l9-9 9 9M5 10v10h14V10"/>',
-  commercial: '<rect x="4" y="3" width="16" height="18" rx="1"/><path d="M8 7h8M8 11h8M8 15h6"/>',
-};
+const services = [
+  { id: "kitchen", title: "Kitchen Countertops", img: imgKitchen },
+  { id: "bath", title: "Bathroom Vanities", img: imgBath },
+  { id: "outdoor", title: "Outdoor Living", img: imgOutdoor },
+  { id: "commercial", title: "Commercial Projects", img: imgCommercial }
+];
 ---
 
-<section class="py-24 lg:py-32 bg-white">
+<section class="py-24 lg:py-40 bg-ink text-white relative overflow-hidden">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16" data-anim="fade-up">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20 service-header-anim">
       <div class="max-w-2xl">
-        <p class="eyebrow text-primary mb-4">What We Do</p>
-        <h2 class="text-ink text-4xl sm:text-5xl lg:text-6xl font-serif leading-none">
-          Crafted for <span class="italic text-primary">every room.</span>
+        <p class="text-xs font-bold uppercase tracking-[0.3em] text-secondary mb-6">Capabilities</p>
+        <h2 class="text-4xl sm:text-5xl lg:text-7xl font-serif leading-[0.9] tracking-tight">
+          Crafted for <br/> <span class="italic text-primary-ultra-light">every room.</span>
         </h2>
       </div>
-      <p class="text-lg text-shade-dark max-w-md font-sans leading-relaxed">
+      <p class="text-sm text-shade-light max-w-sm font-sans leading-relaxed">
         From the kitchen island that anchors your morning routine to the fireplace surround that frames family time.
       </p>
     </div>
 
-    <!-- Bento Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 auto-rows-[300px]">
+    <!-- Editorial Interactive List -->
+    <div class="flex flex-col lg:flex-row gap-16 lg:gap-24 relative">
       
-      <!-- Feature 1: Kitchens (Large 2x2) -->
-      <article class="group relative md:col-span-2 md:row-span-2 rounded-2xl overflow-hidden shadow-xl" data-anim="fade-up" data-anim-delay="100">
-        <Image src={imgKitchen} alt="Kitchen countertops" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-        <div class="absolute inset-0 bg-linear-to-t from-ink/90 via-ink/40 to-transparent"></div>
-        <div class="absolute bottom-0 left-0 p-8">
-          <div class="w-12 h-12 rounded-full glass mb-4 flex items-center justify-center text-white">
-            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" set:html={icons.kitchen} />
+      <!-- List -->
+      <div class="w-full lg:w-1/2 flex flex-col z-10" id="services-list">
+        {services.map((service, index) => (
+          <div 
+            class="service-item group py-8 border-b border-white/10 cursor-pointer flex items-center justify-between"
+            data-index={index}
+          >
+            <h3 class="text-3xl sm:text-4xl lg:text-5xl font-serif text-white/50 group-hover:text-white transition-colors duration-500">
+              {service.title}
+            </h3>
+            <span class="text-sm font-sans text-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform translate-x-4 group-hover:translate-x-0">Explore</span>
           </div>
-          <h3 class="text-3xl font-serif text-white mb-2">Kitchen Countertops</h3>
-          <p class="text-shade-light font-sans max-w-md leading-relaxed">Granite, marble, quartz and porcelain islands, perimeters, and full-kitchen installations tailored to your layout.</p>
-        </div>
-      </article>
-
-      <!-- Feature 2: Bathrooms (Tall 1x2) -->
-      <article class="group relative md:col-span-1 md:row-span-2 rounded-2xl overflow-hidden shadow-lg" data-anim="fade-up" data-anim-delay="200">
-        <Image src={imgBath} alt="Bathroom vanities" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-        <div class="absolute inset-0 bg-linear-to-t from-ink/90 via-ink/40 to-transparent"></div>
-        <div class="absolute bottom-0 left-0 p-6">
-          <div class="w-10 h-10 rounded-full glass mb-4 flex items-center justify-center text-white">
-            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" set:html={icons.bath} />
-          </div>
-          <h3 class="text-2xl font-serif text-white mb-2">Bathroom Vanities</h3>
-          <p class="text-sm text-shade-light font-sans leading-relaxed">Custom-cut stone vanities and shower walls that turn ordinary bathrooms into spa-grade retreats.</p>
-        </div>
-      </article>
-
-      <!-- Feature 3: Outdoor (Wide 1x1 on LG, 2x1 on MD) -->
-      <article class="group relative md:col-span-3 lg:col-span-1 lg:row-span-1 rounded-2xl overflow-hidden shadow-md bg-ink" data-anim="fade-up" data-anim-delay="300">
-        <Image src={imgOutdoor} alt="Outdoor Living" class="absolute inset-0 w-full h-full object-cover opacity-60 transition-transform duration-700 group-hover:scale-105" />
-        <div class="absolute inset-0 bg-linear-to-t from-ink/95 via-ink/70 to-transparent"></div>
-        <div class="absolute inset-0 p-6 flex flex-col justify-end">
-          <div class="w-10 h-10 rounded-full glass mb-3 flex items-center justify-center text-white">
-            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" set:html={icons.outdoor} />
-          </div>
-          <h3 class="text-xl font-serif text-white mb-1">Outdoor Living</h3>
-          <p class="text-xs text-shade-light font-sans">BBQ islands and fire pits built to endure.</p>
-        </div>
-      </article>
-
-      <!-- Smaller Features as Cards (Stack in the remaining 1x1 slot) -->
-      <div class="md:col-span-3 lg:col-span-1 flex flex-col gap-6" data-anim="fade-up" data-anim-delay="400">
-        <article class="flex-1 bg-background rounded-2xl p-6 border border-primary-ultra-light hover:border-primary/30 transition-colors flex flex-col justify-center">
-          <svg class="w-6 h-6 text-primary mb-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" set:html={icons.fire} />
-          <h3 class="text-lg font-serif text-ink mb-1">Fireplaces</h3>
-          <p class="text-xs text-shade-dark font-sans">Surrounds and hearths in premium stone.</p>
-        </article>
-        <article class="flex-1 bg-background rounded-2xl p-6 border border-primary-ultra-light hover:border-primary/30 transition-colors flex flex-col justify-center">
-          <svg class="w-6 h-6 text-primary mb-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" set:html={icons.commercial} />
-          <h3 class="text-lg font-serif text-ink mb-1">Commercial</h3>
-          <p class="text-xs text-shade-dark font-sans">Reception counters & tenant projects.</p>
-        </article>
+        ))}
       </div>
 
+      <!-- Image Display (Sticky on desktop) -->
+      <div class="w-full lg:w-1/2 h-[50vh] lg:h-[70vh] relative overflow-hidden" id="services-gallery">
+        {services.map((service, index) => (
+          <div class={`absolute inset-0 transition-opacity duration-700 ease-in-out service-image ${index === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0'}`} data-image-index={index}>
+            <Image 
+              src={service.img} 
+              alt={service.title} 
+              class="w-full h-full object-cover"
+            />
+            <div class="absolute inset-0 bg-ink/20"></div>
+          </div>
+        ))}
+      </div>
+      
     </div>
   </div>
 </section>
+
+<script>
+  import { animate, inView, stagger } from "motion";
+
+  // Intersection animations
+  inView(".service-header-anim", (info) => {
+    animate(info.target, { opacity: [0, 1], y: [40, 0] }, { duration: 0.8, easing: "ease-out" });
+  });
+
+  inView("#services-list", (info) => {
+    const items = info.target.querySelectorAll('.service-item');
+    animate(
+      items, 
+      { opacity: [0, 1], x: [-30, 0] }, 
+      { duration: 0.8, delay: stagger(0.15), easing: "ease-out" }
+    );
+  });
+
+  // Hover interaction
+  const serviceItems = document.querySelectorAll('.service-item');
+  const serviceImages = document.querySelectorAll('.service-image');
+
+  serviceItems.forEach(item => {
+    item.addEventListener('mouseenter', () => {
+      const index = item.getAttribute('data-index');
+      
+      serviceImages.forEach(img => {
+        if (img.getAttribute('data-image-index') === index) {
+          img.classList.remove('opacity-0', 'z-0');
+          img.classList.add('opacity-100', 'z-10');
+        } else {
+          img.classList.remove('opacity-100', 'z-10');
+          img.classList.add('opacity-0', 'z-0');
+        }
+      });
+    });
+  });
+</script>

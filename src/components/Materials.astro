@@ -7,39 +7,35 @@ const materials = [
 ];
 ---
 
-<section class="py-20 sm:py-28 bg-white">
+<section class="py-24 sm:py-40 bg-white" id="materials-section">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+    <div class="grid lg:grid-cols-12 gap-16 lg:gap-24 items-start">
 
-      <div class="lg:col-span-5 lg:sticky lg:top-28" data-anim="fade-right">
-        <p class="eyebrow text-primary mb-3">Materials</p>
-        <h2 class="text-ink text-3xl sm:text-4xl">The right stone, every time.</h2>
-        <p class="mt-5 text-lg text-shade-dark leading-relaxed font-sans">
+      <div class="lg:col-span-4 lg:sticky lg:top-32 mat-header-anim">
+        <h2 class="text-ink text-5xl sm:text-6xl font-serif leading-[0.9] tracking-tight">
+          The right stone, <br/><span class="italic text-secondary">every time.</span>
+        </h2>
+        <p class="mt-8 text-sm text-shade-dark leading-relaxed font-sans max-w-sm">
           Each project starts with choosing the right material. We fabricate in granite, marble, quartz and porcelain — and we help you pick based on use, exposure, and the look you want.
         </p>
       </div>
 
-      <div class="lg:col-span-7 space-y-4">
-        {materials.map(({ name, origin, properties, best_for }, i) => (
-          <article
-            class="group relative overflow-hidden p-8 sm:p-10 bg-white border border-shade-light/20 rounded-2xl shadow-sm hover:shadow-2xl hover:shadow-primary/10 hover:border-primary/40 transition-all duration-500 font-sans"
-            data-anim="fade-up"
-            data-anim-delay={(i + 1) * 100}
-          >
-            <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 relative z-10">
-              <h3 class="text-3xl font-serif text-ink group-hover:text-primary transition-colors">{name}</h3>
-              <p class="eyebrow text-primary">{origin}</p>
+      <div class="lg:col-span-8 border-t border-shade-light/20" id="materials-list">
+        {materials.map(({ name, properties, best_for }, i) => (
+          <article class="material-row group relative py-12 border-b border-shade-light/20 flex flex-col md:flex-row justify-between md:items-center gap-6 hover:border-ink transition-colors duration-500 cursor-default">
+            <h3 class="text-4xl sm:text-5xl md:text-6xl font-serif text-shade-light group-hover:text-ink transition-colors duration-700 w-full md:w-1/3">
+              {name}
+            </h3>
+            <div class="flex-1 grid sm:grid-cols-2 gap-4 text-xs font-sans tracking-wide text-shade-dark">
+              <div>
+                <span class="block uppercase tracking-[0.2em] text-ink font-bold mb-1">Properties</span>
+                {properties}
+              </div>
+              <div>
+                <span class="block uppercase tracking-[0.2em] text-ink font-bold mb-1">Best For</span>
+                {best_for}
+              </div>
             </div>
-            <dl class="mt-6 grid sm:grid-cols-2 gap-6 relative z-10">
-              <div>
-                <dt class="eyebrow text-primary">Properties</dt>
-                <dd class="mt-1 text-sm text-shade-dark">{properties}</dd>
-              </div>
-              <div>
-                <dt class="eyebrow text-primary">Best for</dt>
-                <dd class="mt-1 text-sm text-shade-dark">{best_for}</dd>
-              </div>
-            </dl>
           </article>
         ))}
       </div>
@@ -47,3 +43,20 @@ const materials = [
     </div>
   </div>
 </section>
+
+<script>
+  import { animate, inView, stagger } from "motion";
+
+  inView(".mat-header-anim", (info) => {
+    animate(info.target, { opacity: [0, 1], y: [40, 0] }, { duration: 0.8, easing: "ease-out" });
+  });
+
+  inView("#materials-list", (info) => {
+    const rows = info.target.querySelectorAll('.material-row');
+    animate(
+      rows,
+      { opacity: [0, 1], x: [30, 0] },
+      { duration: 0.8, delay: stagger(0.1), easing: "ease-out" }
+    );
+  });
+</script>

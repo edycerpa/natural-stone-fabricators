@@ -1,0 +1,24 @@
+---
+interface Props {
+  class?: string;
+  gridOpacity?: number;
+}
+
+const { class: className = "", gridOpacity = 0.3 } = Astro.props;
+---
+
+<div class={`relative overflow-hidden bg-ink w-full flex flex-col ${className}`}>
+  
+  <!-- Slot for background image (absolute inset-0) if needed -->
+  <slot name="background" />
+
+  <!-- 2. The prominent grid (Cuadrícula) fading down -->
+  <div class="absolute inset-0 z-10 pointer-events-none"
+       style={`opacity: ${gridOpacity}; background-size: 60px 60px; background-image: linear-gradient(to right, rgba(255,255,255,0.25) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.25) 1px, transparent 1px); mask-image: linear-gradient(to bottom, black 0%, transparent 80%); -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 80%);`}>
+  </div>
+
+  <!-- Content -->
+  <div class="relative z-20 w-full flex-1 flex flex-col">
+    <slot />
+  </div>
+</div>

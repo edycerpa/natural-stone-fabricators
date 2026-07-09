@@ -1,46 +1,102 @@
 ---
 import { Image } from "astro:assets";
 import { gallery } from "../data/gallery";
-const items = gallery.slice(0, 6);
+// Tomamos 4 imágenes para un layout asimétrico clásico
+const items = gallery.slice(0, 4);
 ---
 
-<section class="py-20 sm:py-28 bg-background">
+<section class="py-24 sm:py-40 bg-background overflow-hidden" id="gallery-preview">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex items-end justify-between gap-4 mb-12" data-anim="fade-up">
+    
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20 gallery-header-anim">
       <div>
-        <p class="eyebrow text-primary mb-3">Recent Projects</p>
-        <h2 class="text-ink text-4xl sm:text-5xl font-serif">From slab to home.</h2>
+        <p class="text-xs font-bold uppercase tracking-[0.3em] text-secondary mb-6">Recent Work</p>
+        <h2 class="text-ink text-5xl sm:text-6xl lg:text-7xl font-serif leading-[0.9] tracking-tight">
+          From slab <br/><span class="italic text-shade-dark">to home.</span>
+        </h2>
       </div>
-      <a href="/gallery" class="hidden sm:inline-flex items-center text-sm font-bold uppercase tracking-wider text-secondary hover:text-secondary-hover">
-        View Gallery →
+      <a href="/gallery" class="hidden md:inline-flex items-center justify-center px-10 py-5 text-xs font-bold uppercase tracking-[0.2em] border border-ink text-ink hover:bg-ink hover:text-white transition-colors">
+        View Full Portfolio
       </a>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      {items.map((item, i) => (
-        <figure
-          class="relative aspect-video overflow-hidden rounded-2xl shadow-sm hover:shadow-2xl group cursor-pointer"
-          data-anim="fade-up"
-          data-anim-delay={(i + 1) * 100}
-        >
-          <Image
-            src={item.src}
-            alt={item.alt}
-            class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-            width={600}
-            height={400}
-          />
-          <div class="absolute inset-0 bg-ink/0 group-hover:bg-ink/30 transition-colors duration-500 flex items-center justify-center">
-            <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-white font-bold tracking-widest uppercase text-sm border-b border-white pb-1">View Project</span>
-          </div>
-        </figure>
-      ))}
+    <!-- Asymmetric Layout -->
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-10">
+      
+      <!-- Col 1 -->
+      <div class="md:col-span-5 flex flex-col gap-10 mt-0 lg:mt-24">
+        {items[0] && (
+          <figure class="gallery-img-container overflow-hidden group">
+            <div class="relative w-full h-[60vh]">
+              <Image src={items[0].src} alt={items[0].alt} class="absolute inset-0 w-full h-[120%] object-cover origin-top gallery-parallax" width={800} height={1000} />
+            </div>
+          </figure>
+        )}
+        {items[2] && (
+          <figure class="gallery-img-container overflow-hidden group">
+            <div class="relative w-full h-[40vh]">
+              <Image src={items[2].src} alt={items[2].alt} class="absolute inset-0 w-full h-[120%] object-cover origin-top gallery-parallax" width={800} height={600} />
+            </div>
+          </figure>
+        )}
+      </div>
+
+      <!-- Col 2 -->
+      <div class="md:col-span-7 flex flex-col gap-10">
+        {items[1] && (
+          <figure class="gallery-img-container overflow-hidden group">
+            <div class="relative w-full h-[50vh]">
+              <Image src={items[1].src} alt={items[1].alt} class="absolute inset-0 w-full h-[120%] object-cover origin-top gallery-parallax" width={1000} height={800} />
+            </div>
+          </figure>
+        )}
+        {items[3] && (
+          <figure class="gallery-img-container overflow-hidden group">
+            <div class="relative w-full h-[70vh]">
+              <Image src={items[3].src} alt={items[3].alt} class="absolute inset-0 w-full h-[120%] object-cover origin-top gallery-parallax" width={1000} height={1200} />
+            </div>
+          </figure>
+        )}
+      </div>
+      
     </div>
 
-    <div class="mt-10 text-center sm:hidden">
-      <a href="/gallery" class="inline-flex items-center text-sm font-bold uppercase tracking-wider text-secondary hover:text-secondary-hover">
-        View Gallery →
+    <div class="mt-12 text-center md:hidden">
+      <a href="/gallery" class="inline-flex items-center justify-center w-full px-10 py-5 text-xs font-bold uppercase tracking-[0.2em] border border-ink text-ink hover:bg-ink hover:text-white transition-colors">
+        View Full Portfolio
       </a>
     </div>
   </div>
 </section>
+
+<script>
+  import { animate, inView, stagger, scroll } from "motion";
+
+  inView(".gallery-header-anim", (info) => {
+    animate(info.target, { opacity: [0, 1], y: [40, 0] }, { duration: 0.8, easing: "ease-out" });
+  });
+
+  // Reveal containers
+  const containers = document.querySelectorAll(".gallery-img-container");
+  if (containers.length > 0) {
+    inView("#gallery-preview", () => {
+      animate(
+        containers,
+        { opacity: [0, 1], clipPath: ["inset(100% 0 0 0)", "inset(0% 0 0 0)"] },
+        { duration: 1, delay: stagger(0.2), easing: [0.22, 1, 0.36, 1] }
+      );
+    });
+  }
+
+  // Parallax scroll effect for images inside the containers
+  const parallaxes = document.querySelectorAll(".gallery-parallax");
+  parallaxes.forEach((img) => {
+    const parent = img.closest('.gallery-img-container');
+    if (parent) {
+      scroll(
+        animate(img, { y: ["0%", "-15%"] }),
+        { target: parent, offset: ["start end", "end start"] }
+      );
+    }
+  });
+</script>

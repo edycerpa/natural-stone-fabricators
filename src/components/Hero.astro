@@ -1,60 +1,92 @@
 ---
 import { Image } from "astro:assets";
-import heroImg from "../assets/image-31.jpg";
+import heroImg from "../assets/isla-cocina-cascada-marmol-cebra.jpg";
+import BackgroundGrid from "./BackgroundGrid.astro";
 ---
 
-<section class="relative min-h-screen lg:min-h-[calc(100vh-5rem)] flex items-center pt-20 overflow-hidden">
-  <!-- Desktop Split Background -->
-  <div class="absolute inset-0 z-0 hidden lg:flex">
-    <div class="w-[55%] bg-background"></div>
-    <div class="w-[45%] relative">
-      <Image
-        src={heroImg}
-        alt="Natural Stone Fabricators — premium stone craftsmanship in Orange County"
-        class="absolute inset-0 w-full h-full object-cover"
-        loading="eager"
-        fetchpriority="high"
-      />
-      <!-- Subtle gradient to blend the edge -->
-      <div class="absolute inset-0 bg-linear-to-r from-background to-transparent w-32"></div>
-    </div>
-  </div>
-
-  <!-- Mobile Background -->
-  <div class="absolute inset-0 z-0 lg:hidden">
+<BackgroundGrid class="min-h-screen pt-24">
+  
+  <!-- Full Screen Background Image & Left-to-Right Dark Gradient -->
+  <div slot="background" class="absolute inset-0 z-0 overflow-hidden" id="hero-img-container">
     <Image
       src={heroImg}
       alt="Premium stone craftsmanship"
-      class="w-full h-full object-cover"
+      class="w-full h-full object-cover origin-center opacity-100"
+      id="hero-img"
       loading="eager"
+      fetchpriority="high"
     />
-    <div class="absolute inset-0 bg-background/95 backdrop-blur-md"></div>
+    <!-- Left to right dark gradient for text readability -->
+    <div class="absolute inset-0 z-10 bg-linear-to-r from-ink/80 via-ink/70 to-transparent"></div>
   </div>
 
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 grid lg:grid-cols-12 gap-8 items-center py-20 lg:py-0">
-    <div class="lg:col-span-7 pr-0 lg:pr-12">
-      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary-ultra-light border border-primary/20 mb-8" data-anim="fade-up" data-anim-delay="100">
-        <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-        <span class="text-xs font-bold uppercase tracking-wider text-primary">20+ Years in Orange County</span>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex-1 flex flex-col lg:flex-row items-center relative pb-12">
+    
+    <!-- Left Text Content (Kept in its exact layout position) -->
+    <div class="w-full lg:w-[60%] relative pt-10 lg:pt-0">
+      <div class="hero-reveal overflow-hidden mb-6">
+        <p class="text-xs font-bold uppercase tracking-[0.3em] text-accent">20+ Years in Orange County</p>
       </div>
       
-      <h1 class="text-6xl sm:text-7xl lg:text-[7rem] font-serif text-ink leading-[0.85]" data-anim="fade-up" data-anim-delay="200">
-        Stone that <br/> lasts <span class="text-primary italic pr-2">generations.</span>
+      <h1 class="text-6xl sm:text-7xl lg:text-[8rem] font-serif text-white leading-[0.8] tracking-tight" style="text-shadow: 2px 2px 0px rgba(3, 25, 39, 1);">
+        <div class="overflow-hidden"><span class="hero-title-line block">Stone</span></div>
+        <div class="overflow-hidden"><span class="hero-title-line block">that lasts</span></div>
+        <div class="overflow-hidden"><span class="hero-title-line block italic text-accent pr-4">generations.</span></div>
       </h1>
       
-      <p class="mt-8 text-lg sm:text-xl text-shade-dark max-w-xl leading-relaxed font-sans" data-anim="fade-up" data-anim-delay="300">
-        Fabrication and installation of premium granite, marble, quartz and porcelain. 
-        Crafting breathtaking kitchens, bathrooms, and outdoor spaces across Southern California.
-      </p>
+      <div class="hero-reveal mt-10">
+        <p class="text-lg sm:text-xl text-shade-light max-w-md leading-relaxed font-sans">
+          Fabrication and installation of premium granite, marble, quartz and porcelain. 
+          Crafting breathtaking spaces across Southern California.
+        </p>
+      </div>
       
-      <div class="mt-10 flex flex-col sm:flex-row gap-4" data-anim="fade-up" data-anim-delay="400">
-        <a href="/contact" class="inline-flex items-center justify-center px-8 py-4 text-sm font-bold uppercase tracking-wider bg-ink text-white hover:bg-primary transition-colors rounded-md shadow-xl shadow-ink/20">
+      <div class="hero-reveal mt-12 flex flex-col sm:flex-row gap-6 items-start">
+        <a href="/contact" class="inline-flex items-center justify-center px-10 py-5 text-xs font-bold uppercase tracking-[0.2em] bg-white text-ink hover:bg-secondary hover:text-white transition-colors">
           Request Free Estimate
         </a>
-        <a href="/gallery" class="inline-flex items-center justify-center px-8 py-4 text-sm font-bold uppercase tracking-wider bg-white border border-shade-light/30 text-ink hover:border-primary hover:text-primary transition-all rounded-md shadow-sm">
+        <a href="/gallery" class="inline-flex items-center justify-center px-0 py-5 text-xs font-bold uppercase tracking-[0.2em] text-white border-b border-white hover:text-secondary hover:border-secondary transition-colors">
           View Our Work
         </a>
       </div>
     </div>
+
   </div>
-</section>
+</BackgroundGrid>
+
+<script>
+  import { animate, stagger, scroll } from "motion";
+
+  // Initial load animations
+  const lines = document.querySelectorAll(".hero-title-line");
+  const reveals = document.querySelectorAll(".hero-reveal");
+  const imgContainer = document.getElementById("hero-img-container");
+  
+  if (lines.length > 0) {
+    animate(
+      lines,
+      { y: ["100%", "0%"] },
+      { duration: 1, easing: [0.22, 1, 0.36, 1], delay: stagger(0.15, { start: 0.1 }) }
+    );
+  }
+
+  if (reveals.length > 0) {
+    animate(
+      reveals,
+      { opacity: [0, 1], y: [20, 0] },
+      { duration: 0.8, easing: "ease-out", delay: stagger(0.1, { start: 0.6 }) }
+    );
+  }
+
+  // Scroll parallax for image
+  /*
+  const heroImg = document.getElementById("hero-img");
+  const section = document.querySelector("section");
+  if (heroImg && section) {
+    scroll(
+      animate(heroImg, { y: ["0%", "-15%"] }),
+      { target: section, offset: ["start start", "end start"] }
+    );
+  }
+  */
+</script>

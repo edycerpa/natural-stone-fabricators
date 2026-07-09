@@ -1,0 +1,49 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import BackgroundGrid from "../components/BackgroundGrid.astro";
+import { Image } from "astro:assets";
+import bgImg from "../assets/isla-cocina-cascada-marmol-cebra.jpg";
+
+const title = "Thank You | Natural Stone Fabricators";
+const description = "Thank you for reaching out to Natural Stone Fabricators.";
+---
+
+<BaseLayout title={title} description={description}>
+  <Header />
+  <BackgroundGrid class="min-h-screen pt-24 pb-12" gridOpacity={0.6}>
+    
+    <div slot="background" class="absolute inset-0 z-0 overflow-hidden bg-ink">
+      <Image src={bgImg} alt="Premium stone" class="w-full h-full object-cover origin-center opacity-30 mix-blend-luminosity" loading="eager" fetchpriority="high" />
+    </div>
+
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex-1 flex flex-col justify-center w-full" id="thank-you-content">
+      <h1 class="text-5xl sm:text-7xl font-serif text-white leading-[1.1] tracking-tight mb-6">
+        Thank you <br/>
+        <span class="italic text-accent">for reaching out.</span>
+      </h1>
+      <p class="text-lg sm:text-xl text-shade-light max-w-lg mx-auto leading-relaxed font-sans mb-12">
+        We have received your message and will get back to you shortly to discuss your premium stone project.
+      </p>
+      
+      <a href="/" class="self-center inline-flex items-center justify-center px-8 py-3 text-xs font-bold uppercase tracking-[0.2em] bg-white text-ink hover:bg-secondary hover:text-white transition-colors mt-4">
+        Return to Home
+      </a>
+    </div>
+  </BackgroundGrid>
+  <Footer />
+</BaseLayout>
+
+<script>
+  import { animate } from "motion";
+
+  const content = document.getElementById("thank-you-content");
+  if (content) {
+    animate(
+      content,
+      { opacity: [0, 1], y: [40, 0] },
+      { duration: 1, easing: [0.22, 1, 0.36, 1] }
+    );
+  }
+</script>
