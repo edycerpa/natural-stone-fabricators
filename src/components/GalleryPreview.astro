@@ -9,7 +9,7 @@ const items = gallery.slice(0, 6);
     <div class="flex items-end justify-between gap-4 mb-12" data-anim="fade-up">
       <div>
         <p class="eyebrow text-primary mb-3">Recent Projects</p>
-        <h2 class="text-ink text-3xl sm:text-4xl">From slab to home.</h2>
+        <h2 class="text-ink text-4xl sm:text-5xl font-serif">From slab to home.</h2>
       </div>
       <a href="/gallery" class="hidden sm:inline-flex items-center text-sm font-bold uppercase tracking-wider text-secondary hover:text-secondary-hover">
         View Gallery →
@@ -19,17 +19,20 @@ const items = gallery.slice(0, 6);
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {items.map((item, i) => (
         <figure
-          class="relative aspect-video overflow-hidden bg-primary-ultra-light group"
+          class="relative aspect-video overflow-hidden rounded-2xl shadow-sm hover:shadow-2xl group cursor-pointer"
           data-anim="fade-up"
           data-anim-delay={(i + 1) * 100}
         >
           <Image
             src={item.src}
             alt={item.alt}
-            class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
             width={600}
             height={400}
           />
+          <div class="absolute inset-0 bg-ink/0 group-hover:bg-ink/30 transition-colors duration-500 flex items-center justify-center">
+            <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-white font-bold tracking-widest uppercase text-sm border-b border-white pb-1">View Project</span>
+          </div>
         </figure>
       ))}
     </div>

@@ -7,36 +7,23 @@ const stats = [
 ];
 ---
 
-<section class="relative overflow-hidden bg-gradient-to-br from-ink via-ink to-primary py-16 sm:py-20">
-  <!-- Decorative red line, top -->
-  <div class="absolute inset-x-0 top-0 h-1 bg-secondary"></div>
+<section class="relative overflow-hidden bg-ink py-20 sm:py-28">
+  <!-- Dynamic glow effect -->
+  <div class="absolute inset-0 z-0 opacity-40">
+    <div class="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-primary/20 blur-[120px]"></div>
+    <div class="absolute -bottom-[20%] -right-[10%] w-[50%] h-[50%] rounded-full bg-secondary/20 blur-[120px]"></div>
+  </div>
 
-  <!-- Decorative red line, bottom -->
-  <div class="absolute inset-x-0 bottom-0 h-1 bg-secondary"></div>
-
-  <!-- Subtle red glow, top-right -->
-  <div
-    aria-hidden="true"
-    class="pointer-events-none absolute -top-32 -right-32 w-[28rem] h-[28rem] rounded-full bg-secondary/10 blur-3xl"
-  ></div>
-
-  <!-- Subtle red glow, bottom-left -->
-  <div
-    aria-hidden="true"
-    class="pointer-events-none absolute -bottom-40 -left-40 w-[32rem] h-[32rem] rounded-full bg-secondary/15 blur-3xl"
-  ></div>
-
-  <!-- Vertical separators between stats on desktop -->
-  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-10 text-center relative">
       {stats.map(({ value, label }, i) => (
         <div
-          class={`relative ${i > 0 ? "lg:before:absolute lg:before:left-0 lg:before:top-1/2 lg:before:-translate-y-1/2 lg:before:h-16 lg:before:w-px lg:before:bg-gradient-to-b lg:before:from-transparent lg:before:via-secondary/60 lg:before:to-transparent" : ""}`}
-          data-anim="zoom-in"
+          class={`relative flex flex-col items-center justify-center p-8 rounded-2xl glass-dark ${i > 0 ? "lg:before:absolute lg:before:left-0 lg:before:top-1/2 lg:before:-translate-y-1/2 lg:before:h-16 lg:before:w-px lg:before:bg-gradient-to-b lg:before:from-transparent lg:before:via-shade-light/20 lg:before:to-transparent" : ""}`}
+          data-anim="fade-up"
           data-anim-delay={(i + 1) * 150}
         >
-          <p class="text-white text-4xl sm:text-5xl font-bold font-sans">{value}</p>
-          <p class="eyebrow mt-2 text-primary-ultra-light">{label}</p>
+          <p class="text-white text-5xl sm:text-6xl font-serif tracking-tight">{value}</p>
+          <p class="eyebrow mt-4 text-primary-light">{label}</p>
         </div>
       ))}
     </div>

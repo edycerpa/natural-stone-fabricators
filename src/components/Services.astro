@@ -1,12 +1,8 @@
 ---
-const services = [
-  { icon: "kitchen", title: "Kitchen Countertops", description: "Granite, marble, quartz and porcelain islands, perimeters, and full-kitchen installations tailored to your layout." },
-  { icon: "bath", title: "Bathroom Vanities", description: "Custom-cut stone vanities, surrounds, and shower walls that turn ordinary bathrooms into spa-grade retreats." },
-  { icon: "fire", title: "Fireplaces", description: "Surrounds and hearths in marble, granite or quartz — designed to anchor the room's focal point." },
-  { icon: "stairs", title: "Staircases", description: "Precision-cut stone treads and risers that flow seamlessly from entryway to upper level." },
-  { icon: "outdoor", title: "Outdoor Living", description: "BBQ islands, bars, fire pits and patio countertops that stand up to Southern California weather." },
-  { icon: "commercial", title: "Commercial", description: "Reception counters, conference tables, and tenant-improvement projects with deadline-driven turnaround." },
-];
+import { Image } from "astro:assets";
+import imgKitchen from "../assets/image-12.jpg";
+import imgBath from "../assets/image-13.jpg";
+import imgOutdoor from "../assets/image-01.jpg";
 
 const icons: Record<string, string> = {
   kitchen: '<path d="M5 4h14M7 4v8a5 5 0 0 0 10 0V4M9 12v8M15 12v8"/>',
@@ -18,28 +14,77 @@ const icons: Record<string, string> = {
 };
 ---
 
-<section class="py-20 sm:py-28 bg-background">
+<section class="py-24 lg:py-32 bg-white">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-14" data-anim="fade-up">
-      <p class="eyebrow text-primary mb-3">What We Do</p>
-      <h2 class="text-ink text-3xl sm:text-4xl lg:text-5xl">Crafted for every room.</h2>
-      <p class="mt-5 text-lg text-shade-dark max-w-2xl mx-auto font-sans">
-        From the kitchen island that anchors your morning routine to the fireplace surround that frames family time — natural stone, fabricated to your home.
+    
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16" data-anim="fade-up">
+      <div class="max-w-2xl">
+        <p class="eyebrow text-primary mb-4">What We Do</p>
+        <h2 class="text-ink text-4xl sm:text-5xl lg:text-6xl font-serif leading-none">
+          Crafted for <span class="italic text-primary">every room.</span>
+        </h2>
+      </div>
+      <p class="text-lg text-shade-dark max-w-md font-sans leading-relaxed">
+        From the kitchen island that anchors your morning routine to the fireplace surround that frames family time.
       </p>
     </div>
 
-    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {services.map(({ icon, title, description }, i) => (
-        <article
-          class="group p-8 bg-white border border-primary-ultra-light hover:border-primary hover:shadow-lg hover:shadow-primary-light/30 transition-all rounded-sm"
-          data-anim="fade-up"
-          data-anim-delay={(i + 1) * 100}
-        >
-          <svg class="w-10 h-10 text-primary mb-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" set:html={icons[icon]} />
-          <h3 class="text-xl font-bold text-ink mb-2 font-sans">{title}</h3>
-          <p class="text-sm text-shade-dark leading-relaxed font-sans">{description}</p>
+    <!-- Bento Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 auto-rows-[300px]">
+      
+      <!-- Feature 1: Kitchens (Large 2x2) -->
+      <article class="group relative md:col-span-2 md:row-span-2 rounded-2xl overflow-hidden shadow-xl" data-anim="fade-up" data-anim-delay="100">
+        <Image src={imgKitchen} alt="Kitchen countertops" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+        <div class="absolute inset-0 bg-linear-to-t from-ink/90 via-ink/40 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 p-8">
+          <div class="w-12 h-12 rounded-full glass mb-4 flex items-center justify-center text-white">
+            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" set:html={icons.kitchen} />
+          </div>
+          <h3 class="text-3xl font-serif text-white mb-2">Kitchen Countertops</h3>
+          <p class="text-shade-light font-sans max-w-md leading-relaxed">Granite, marble, quartz and porcelain islands, perimeters, and full-kitchen installations tailored to your layout.</p>
+        </div>
+      </article>
+
+      <!-- Feature 2: Bathrooms (Tall 1x2) -->
+      <article class="group relative md:col-span-1 md:row-span-2 rounded-2xl overflow-hidden shadow-lg" data-anim="fade-up" data-anim-delay="200">
+        <Image src={imgBath} alt="Bathroom vanities" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+        <div class="absolute inset-0 bg-linear-to-t from-ink/90 via-ink/40 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 p-6">
+          <div class="w-10 h-10 rounded-full glass mb-4 flex items-center justify-center text-white">
+            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" set:html={icons.bath} />
+          </div>
+          <h3 class="text-2xl font-serif text-white mb-2">Bathroom Vanities</h3>
+          <p class="text-sm text-shade-light font-sans leading-relaxed">Custom-cut stone vanities and shower walls that turn ordinary bathrooms into spa-grade retreats.</p>
+        </div>
+      </article>
+
+      <!-- Feature 3: Outdoor (Wide 1x1 on LG, 2x1 on MD) -->
+      <article class="group relative md:col-span-3 lg:col-span-1 lg:row-span-1 rounded-2xl overflow-hidden shadow-md bg-ink" data-anim="fade-up" data-anim-delay="300">
+        <Image src={imgOutdoor} alt="Outdoor Living" class="absolute inset-0 w-full h-full object-cover opacity-60 transition-transform duration-700 group-hover:scale-105" />
+        <div class="absolute inset-0 bg-linear-to-t from-ink/95 via-ink/70 to-transparent"></div>
+        <div class="absolute inset-0 p-6 flex flex-col justify-end">
+          <div class="w-10 h-10 rounded-full glass mb-3 flex items-center justify-center text-white">
+            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" set:html={icons.outdoor} />
+          </div>
+          <h3 class="text-xl font-serif text-white mb-1">Outdoor Living</h3>
+          <p class="text-xs text-shade-light font-sans">BBQ islands and fire pits built to endure.</p>
+        </div>
+      </article>
+
+      <!-- Smaller Features as Cards (Stack in the remaining 1x1 slot) -->
+      <div class="md:col-span-3 lg:col-span-1 flex flex-col gap-6" data-anim="fade-up" data-anim-delay="400">
+        <article class="flex-1 bg-background rounded-2xl p-6 border border-primary-ultra-light hover:border-primary/30 transition-colors flex flex-col justify-center">
+          <svg class="w-6 h-6 text-primary mb-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" set:html={icons.fire} />
+          <h3 class="text-lg font-serif text-ink mb-1">Fireplaces</h3>
+          <p class="text-xs text-shade-dark font-sans">Surrounds and hearths in premium stone.</p>
         </article>
-      ))}
+        <article class="flex-1 bg-background rounded-2xl p-6 border border-primary-ultra-light hover:border-primary/30 transition-colors flex flex-col justify-center">
+          <svg class="w-6 h-6 text-primary mb-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" set:html={icons.commercial} />
+          <h3 class="text-lg font-serif text-ink mb-1">Commercial</h3>
+          <p class="text-xs text-shade-dark font-sans">Reception counters & tenant projects.</p>
+        </article>
+      </div>
+
     </div>
   </div>
 </section>
